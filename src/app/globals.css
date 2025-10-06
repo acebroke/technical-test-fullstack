@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0b1020;
+  --card: #11172a;
+  --text: #e6ebff;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+.container {
+  @apply max-w-3xl mx-auto p-6;
+}
+.card {
+  @apply bg-white/5 border border-white/10 rounded-2xl p-6 shadow;
+}
+.btn {
+  @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium border border-white/20 hover:bg-white/10 transition;
+}
+.table {
+  @apply w-full text-sm;
+}
+th, td { @apply px-3 py-2 border-b border-white/10; }
