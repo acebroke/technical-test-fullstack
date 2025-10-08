@@ -1,7 +1,7 @@
-version: "3.9"
 services:
   db:
     image: postgres:16-alpine
+    container_name: stripe_postgres
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
@@ -10,17 +10,22 @@ services:
       - "5438:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+
   app:
-    build: .
+    container_name: stripe_app
+    build:
+      context: .
+      args:
+        STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+    env_file:                # 🧩 CHARGER AUTOMATIQUEMENT TON .env
+      - .env
     ports:
       - "3000:3000"
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/appdb
-      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
-      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
-      NEXT_PUBLIC_APP_URL: http://localhost:3000
       NODE_ENV: production
     depends_on:
       - db
+
 volumes:
   db_data:
